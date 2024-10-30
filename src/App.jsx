@@ -1,35 +1,27 @@
-import ProductCard from "./components/ProductCard";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
+import { Button } from "@material-tailwind/react";
 
-const App = () => {
+export default function App() {
   return (
-    <section className="flex justify-center items-center h-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] text-white">
-      {/* Main  */}
-      <main>
-        <div className="flex justify-center items-center space-x-4 mb-3">
-          <img
-            className="w-16 lg:w-28"
-            src="https://www.devknus.com/img/react.png"
-            alt="react logo"
-          />
-          <img
-            className="w-8 lg:w-10"
-            src="https://cdn-icons-png.flaticon.com/128/10238/10238173.png"
-            alt=""
-          />
-          <img
-            className="w-40 lg:w-72"
-            src="razorpay.png"
-            // src="https://w7.pngwing.com/pngs/457/711/png-transparent-razorpay-white-logo-tech-companies.png"
-            alt="razorpay logo"
-          />
-        </div>
+    <section className="h-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] text-white">
+      <header className="p-4 ">
+        <SignedOut>
+          <Button className="w-full bg-[#1B9CFC]">
+            <SignInButton />
+          </Button>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </header>
 
-        <div className="flex justify-center items-center mt-3">
-          <ProductCard />
-        </div>
-      </main>
+      {/* Main  */}
+      <main className="flex justify-center items-center "></main>
     </section>
   );
-};
-
-export default App;
+}
