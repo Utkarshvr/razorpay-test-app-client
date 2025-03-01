@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import axiosInstance from "../utils/axiosInstance";
 
 export default function ProductCard() {
   const [amount, setamount] = useState(4);
@@ -31,7 +32,7 @@ export default function ProductCard() {
 
       const data = await res.json();
       console.log(data);
-      handlePaymentVerify(data.data);
+      handlePaymentVerify(data);
     } catch (error) {
       console.log(error);
     }
@@ -49,22 +50,14 @@ export default function ProductCard() {
       handler: async (response) => {
         console.log("response", response);
         try {
-          const res = await fetch(
-            `${import.meta.env.VITE_BACKEND_HOST_URL}/api/payment/verify`,
+          const { data: verifyData } = await axiosInstance.post(
+            "payment/verify-order",
             {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
             }
           );
-
-          const verifyData = await res.json();
 
           if (verifyData.message) {
             toast.success(verifyData.message);
